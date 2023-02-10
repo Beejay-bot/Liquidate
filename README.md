@@ -15,6 +15,9 @@ python3 -m venv venv
 #### Now activate your virtual environments (for Macbooks)
 source venv/bin/activate
 
+### Install all required packages 
+pip install -r  requirements.txt
+
 #### Now, in your terminal run the liquidate.py file.
 python liquidate.py
 
