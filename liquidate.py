@@ -13,7 +13,6 @@ def main():
     for data in walletDetails:
         ''' check if remaining balance is great 25, if yes transfer remanining money after 25 is deducted. This is due to the processors
         charges which is 25 naira. 
-        Pause/sleep for like 5 sec after each loop. 
         '''
         wallet_detail = getWalletFullDetails(data['wallet_id'])
         if wallet_detail is None:
@@ -23,20 +22,20 @@ def main():
             continue
         remainder = int(wallet_detail['wallet_amount']) - payment_processor_fee
         if wallet_detail['wallet_amount'] > payment_processor_fee and remainder > 5:
-            # transfer_fund(amount=remainder,
-            #     bank_code=recipient_bank_code, 
-            #     acct_number=recipient_account_number, 
-            #     wallet_id=data['wallet_id']
-            # )
+            transfer_fund(amount=remainder,
+                bank_code=recipient_bank_code, 
+                acct_number=recipient_account_number, 
+                wallet_id=data['wallet_id']
+            )
             liquidated_wallets.append(wallet_detail)
-            print('remainder is', remainder)
         else: 
             print(f"This wallet with the ID of {data['wallet_id']} doesn't have enough cash for it to be liquidated.")
             print('-----------------------------')
             unliquidated_wallets.append(data['wallet_id'])
+    print('<==========================>')
     print(f"The total of {len(liquidated_wallets)} wallets have been liquidated.")
     print("======================")
-    print(f"{len(unliquidated_wallets)} were not liquidated due to some issues, e.g wallet id is invalid")
+    print(f"{len(unliquidated_wallets)} wallets IDs were not liquidated due to some issues, e.g wallet id is invalid")
 
     
 def getWalletFullDetails(wallet_id):
